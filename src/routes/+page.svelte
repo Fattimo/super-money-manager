@@ -21,12 +21,22 @@
 			const linkToken: LinkToken = await res.json();
 			const handler = window.Plaid.create({
 				token: linkToken.link_token,
-				onSuccess: (public_token, metadata) => {},
-				onLoad: () => {},
-				onExit: (err, metadata) => {},
-				onEvent: (eventName, metadata) => {}
+				onSuccess: getTransactions,
+				// onLoad: () => {},
+				onExit: (err, metadata) => {}
+				// onEvent: (eventName, metadata) => {}
 			});
 			handler.open();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const getTransactions = async (public_token: string) => {
+		try {
+			const res = await fetch(`./api/transactions?public_token=${public_token}`);
+			const body = await res.text();
+			console.log(body);
 		} catch (error) {
 			console.log(error);
 		}

@@ -25,8 +25,6 @@ class PlaidClient {
 			}
 		});
 
-		console.log(configuration);
-
 		const client = new PlaidApi(configuration);
 		return client;
 	}

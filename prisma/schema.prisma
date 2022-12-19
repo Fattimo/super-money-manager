@@ -9,3 +9,18 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  // Could convert to email in the future. Since it's a local app, we'll stick with usernames as profiles
+  username String @unique
+  name String?
+  plaidTokens PlaidAccessToken[]
+}
+
+model PlaidAccessToken {
+  accessTokenId Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [username])
+  userId String
+  accessToken String
+  itemId String
+}
